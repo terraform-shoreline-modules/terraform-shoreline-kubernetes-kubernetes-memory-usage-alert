@@ -3,11 +3,11 @@
   "description": "This incident type is related to an alert triggered when the available memory on a Kubernetes node drops below a certain threshold (in this case, 90%). The alert is designed to monitor the memory usage percentage and notify the relevant teams when the threshold is breached. This incident type is critical as it helps ensure that Kubernetes clusters are operating within acceptable memory usage levels and that potential issues are identified and resolved promptly.",
   "params": [
     {
-      "name": "POD_NAME",
+      "name": "NODE_NAME",
       "value": ""
     },
     {
-      "name": "NODE_NAME",
+      "name": "POD_NAME",
       "value": ""
     },
     {
@@ -106,13 +106,13 @@
       "name": "cell_14",
       "type": "MARKDOWN",
       "enabled": true,
-      "content": "## Reove node from cluster"
+      "content": "## Remove node from cluster."
     },
     {
       "name": "cell_15",
       "type": "OP_LANG",
       "enabled": true,
-      "content": "pod | k8s_cluster_name=$K8S_CLUSTER_NAME | app='shoreline' | random=1 | limit=1 | invoke_cordon_drain_delete_node($NODE_NAME)"
+      "content": "pod | k8s_cluster_name=$K8S_CLUSTER_NAME | app='shoreline' | random=1 | limit=1 | invoke_cordon_and_drain_nodes($NODE_NAME)"
     },
     {
       "name": "cell_16",
@@ -124,7 +124,7 @@
       "name": "cell_17",
       "type": "OP_LANG",
       "enabled": true,
-      "content": "pod | k8s_cluster_name=$K8S_CLUSTER_NAME | app='shoreline' | random=1 | limit=1 | invoke_k8s_terminate_pod($NODE_NAME)"
+      "content": "pod | k8s_cluster_name=$K8S_CLUSTER_NAME | app='shoreline' | random=1 | limit=1 | invoke_terminate_pods_on_node($NODE_NAME)"
     }
   ]
 }
